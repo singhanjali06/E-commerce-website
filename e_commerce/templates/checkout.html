@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+</head>
+<body>
+    <div class="checkout-container">
+        <h2>Checkout</h2>
+
+        <div class="cart-summary">
+            <h3>Your Cart</h3>
+            <ul>
+                {% for item in cart_items %}
+                    <li>{{ item.product.name }} × {{ item.quantity }} — ${{ item.product.price }}</li>
+                {% endfor %}
+            </ul>
+            <p class="total"><strong>Total:</strong> ${{ total }}</p>
+        </div>
+
+        <form id="payment-form">
+            {% csrf_token %}
+            
+            <h3>Shipping Information</h3>
+            <div class="form-group">
+                <input type="text" name="full_name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="phone" placeholder="Phone" required>
+                <input type="text" name="shipping_address_1" placeholder="Shipping Address 1" required>
+                <input type="text" name="shipping_address_2" placeholder="Shipping Address 2">
+                <input type="text" name="shipping_city" placeholder="City" required>
+                <input type="text" name="shipping_state" placeholder="State" required>
+                <input type="text" name="shipping_zip" placeholder="ZIP Code" required>
+                <input type="text" name="shipping_country" placeholder="Country" required>
+            </div>
+
+            <h3>Payment Details</h3>
+            <div class="form-group">
+                <input type="text" name="cardholder_name" placeholder="Cardholder Name" required>
+                <textarea name="delivery_instructions" placeholder="Delivery Instructions"></textarea>
+
+                <!-- Stripe Card Input -->
+                <div id="card-element"></div>
+                <div id="card-errors" role="alert" class="card-errors"></div>
+            </div>
+
+            <button type="submit" id="submit">Pay Now</button>
+        </form>
+    </div>
+
+    <script>
+        // Initialize Stripe
+        const stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
+        const elements = stripe.elements();
+
+        // Stripe field style (required for iframe)
+        const style = {
+            base: {
+                color: "yellow",
+                backgroundColor: "#fff",
+                fontSize: "16px",
+                fontFamily: "'Poppins', sans-serif",
+                "::placeholder": { color: "#555" },
+            },
+            invalid: {
+                color: "#e74c3c",
+            },
+        };
+
+        const cardElement = elements.create("card", { style, hidePostalCode: true });
+        cardElement.mount("#card-element");
+
+        const form = document.getElementById("payment-form");
+        const submitButton = document.getElementById("submit");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+            submitButton.disabled = true;
+            document.getElementById("card-errors").textContent = "";
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch("{% url 'checkout' %}", {
+                    method: "POST",
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                    body: new URLSearchParams(formData).toString(),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data.clientSecret) {
+                    throw new Error(data.error || "Failed to create payment intent");
+                }
+
+                const result = await stripe.confirmCardPayment(data.clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: {
+                            name: formData.get("full_name"),
+                            email: formData.get("email"),
+                        },
+                    },
+                });
+
+                submitButton.disabled = false;
+
+                if (result.error) {
+                    document.getElementById("card-errors").textContent = result.error.message;
+                } else if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
+                    const formDataForOrder = new FormData();
+                    formDataForOrder.append("payment_intent_id", result.paymentIntent.id);
+
+                    const orderResponse = await fetch("{% url 'checkout' %}", {
+                        method: "POST",
+                        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                        body: formDataForOrder,
+                    });
+
+                    const orderData = await orderResponse.json();
+
+                    if (orderData.order_id) {
+                        window.location.href = "/payment-complete/?order_id=" + orderData.order_id;
+                    } else {
+                        document.getElementById("card-errors").textContent = "Order creation failed.";
+                    }
+                }
+            } catch (error) {
+                submitButton.disabled = false;
+                document.getElementById("card-errors").textContent = error.message || "Payment failed.";
+            }
+        });
+    </script>
+</body>
+</html>

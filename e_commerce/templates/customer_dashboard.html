@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="{% static 'css/customer_dashboard.css' %}">
+</head>
+<body>
+    <header>
+        <h2>Hello, {{ user.username }}!</h2>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </header>
+
+    <main>
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% endif %}
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|truncatewords:20 }}</p>
+                    <p class="price">Price: ${{ product.price }}</p>
+                    <form method="post" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="cart-btn">Add to Cart 🛒</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="quick-links">
+            <a href="{% url 'cart' %}" class="dashboard-btn">View Cart</a>
+            <a href="{% url 'my_orders' %}" class="dashboard-btn">My Orders</a>
+        </div>
+    </main>
+</body>
+</html>

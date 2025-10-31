@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        {% if error %}
+            <p class="error-msg">{{ error }}</p>
+        {% endif %}
+        <form method="post" class="login-form">
+            {% csrf_token %}
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <p id="user-type-display" class="user-type-display"></p>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+    <script>
+    document.getElementById('username').addEventListener('input', function () {
+        const username = this.value;
+        const display = document.getElementById('user-type-display');
+
+        if (username.length > 0) {
+            fetch(`/get_user_type/?username=${username}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user_type === 'Vendor') {
+                        display.textContent = 'User Type: Vendor';
+                        display.style.color = 'darkgreen';
+                    } else if (data.user_type === 'Customer') {
+                        display.textContent = 'User Type: Customer';
+                        display.style.color = 'green';
+                    } else {
+                        display.textContent = '';
+                    }
+                })
+                .catch(err => {
+                    display.textContent = '';
+                    console.error('Error:', err);
+                });
+        } else {
+            display.textContent = '';
+        }
+    });
+    </script>
+</body>
+</html>

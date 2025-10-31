@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Products</title>
+    <link rel="stylesheet" href="{% static 'css/vendor_product_view.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>My Products</h2>
+
+        {% if products %}
+        <ul class="products-list">
+            {% for product in products %}
+            <li class="product-card">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% endif %}
+                <strong>{{ product.name }}</strong>
+                <p>{{ product.description|truncatewords:15 }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>Stock: {{ product.stock }}</p>
+                
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p class="no-products">You haven’t added any products yet. <a href="{% url 'add_product' %}">Add one now</a>.</p>
+        {% endif %}
+
+        <a href="{% url 'vendor_dashboard' %}" class="back-btn">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

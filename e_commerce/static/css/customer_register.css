@@ -1,0 +1,108 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e1e1e, #2c2c2c); /* dark gradient background */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-container {
+    background: #000; /* black form box */
+    padding: 50px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.form-container h2 {
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+/* Style Django form fields */
+form p {
+    margin-bottom: 15px;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #fff; /* white border for visibility */
+    border-radius: 8px;
+    background-color: #111; /* dark background */
+    color: #fff; /* white text */
+    font-size: 1rem;
+}
+
+form input::placeholder,
+form textarea::placeholder {
+    color: #bbb;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    outline: none; /* remove default outline */
+    border-color: #0984e3; /* blue border on focus */
+    box-shadow: 0 0 5px #0984e3; /* subtle glow */
+}
+
+/* Button */
+form button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #222; /* dark button */
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    background-color: #555; /* lighter hover */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Login link */
+.login-link {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.login-link a {
+    color: #0984e3;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+form p .helptext,
+form p .errorlist {
+    display: none;
+}
+
+
+/* Responsive */
+@media (max-width: 500px) {
+    .form-container {
+        padding: 30px;
+    }
+}

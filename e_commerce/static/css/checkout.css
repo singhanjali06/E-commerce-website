@@ -1,0 +1,125 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.checkout-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #000;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2rem;
+}
+
+h3 {
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
+
+.cart-summary ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.cart-summary li {
+    background-color: #1b1b1b;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.total {
+    text-align: right;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #111;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+input:focus, textarea:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px #3498db;
+}
+
+textarea {
+    min-height: 80px;
+}
+
+/* Stripe Card Element */
+#card-element {
+    background-color: #fff;   /* white background */
+    color: #000;              /* black text */
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    margin-top: 10px;
+    width: 100%;
+    min-height: 48px;
+    box-sizing: border-box;
+}
+
+.card-errors {
+    color: #e74c3c;
+    margin-top: 8px;
+    font-size: 0.9rem;
+}
+
+button {
+    width: 100%;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .checkout-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    input, textarea {
+        font-size: 0.9rem;
+    }
+}

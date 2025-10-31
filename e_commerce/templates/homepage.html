@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Registration</title>
+    <link rel="stylesheet" href="{% static 'css/home_registration.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome!</h1>
+        <p class="subtitle">Please choose how you want to register:</p>
+
+        <div class="btn-group">
+            <a href="{% url 'vendor_registration' %}" class="btn vendor">Register as Vendor</a>
+            <br>
+            <a href="{% url 'user_registration' %}" class="btn customer">Register as Customer</a>
+        </div>
+
+        <div class="login-section">
+            <p>Already have an account?</p>
+            <a href="{% url 'login_view' %}" class="login-btn">Login Here</a>
+        </div>
+    </div>
+</body>
+</html>

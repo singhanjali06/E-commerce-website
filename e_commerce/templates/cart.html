@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+</head>
+<body>
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+
+        {% if cart_items %}
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>${{ item.total_price }}</td>
+                <td class="actions">
+                    {% if item.product.id %}
+                        <a href="{% url 'add_to_cart' item.product.id %}" class="action-btn add">+</a>
+                    {% else %}
+                        <span class="error-text">Product ID missing!</span>
+                    {% endif %}
+                    <a href="{% url 'remove_from_cart' item.product.id %}" class="action-btn remove">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <p class="cart-total"><strong>Total:</strong> ${{ total }}</p>
+
+        <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout →</a>
+
+        {% else %}
+            <p class="empty">Your cart is empty.</p>
+        {% endif %}
+
+        <a href="{% url 'customer_dashboard' %}" class="back-btn">← Continue Shopping</a>
+    </div>
+</body>
+</html>

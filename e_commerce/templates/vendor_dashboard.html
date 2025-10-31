@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/vendor_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Hey {{ user.username }}!! Welcome back</h2>
+        <h3>List your products here.<br>
+            You can add new products or delete existing ones.
+        </h3>
+
+        <div class="dashboard-actions">
+            <a class="dashboard-btn" href="{% url 'add_product' %}">Add a New Product</a>
+            <a class="dashboard-btn" href="{% url 'my_products' %}">View My Products</a>
+        </div>
+        <br><br>
+
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders</title>
+    <link rel="stylesheet" href="{% static 'css/my_order.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>My Orders</h2>
+
+        {% if my_orders %}
+            <div class="orders-grid">
+                {% for order in my_orders %}
+                    <div class="order-card">
+                        <h3>Order #{{ order.id }}</h3>
+                        <p><strong>Status:</strong> <span class="status">{{ order.status }}</span></p>
+                        <p><strong>Total:</strong> ₹{{ order.total }}</p>
+                        <p><strong>Date:</strong> {{ order.created_at|date:"d M Y" }}</p>
+                        <strong>Items:</strong>
+                        <ul class="order-items">
+                            {% for item in order.items.all %}
+                                <li>{{ item.product.name }} (x{{ item.quantity }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty">You haven't placed any orders yet.</p>
+        {% endif %}
+
+        <a href="{% url 'customer_dashboard' %}" class="back-btn">← Continue Shopping</a>
+    </div>
+</body>
+</html>

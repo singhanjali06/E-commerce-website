@@ -1,0 +1,143 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #000;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #444;
+}
+
+th {
+    background-color: #111;
+    color: #fff;
+}
+
+td {
+    background-color: #1c1c1c;
+}
+
+tr:hover td {
+    background-color: #222;
+}
+
+.action-btn {
+    text-decoration: none;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.action-btn.add {
+    background-color: #2980b9;
+}
+
+.action-btn.add:hover {
+    background-color: #3498db;
+    transform: translateY(-2px);
+}
+
+.action-btn.remove {
+    background-color: #c0392b;
+}
+
+.action-btn.remove:hover {
+    background-color: #e74c3c;
+    transform: translateY(-2px);
+}
+
+.error-text {
+    color: #e74c3c;
+    font-size: 0.9rem;
+}
+
+.cart-total {
+    font-size: 1.3rem;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.checkout-btn {
+    display: block;
+    text-align: center;
+    background-color: #27ae60;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.checkout-btn:hover {
+    background-color: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 25px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #222;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.back-btn:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+}
+
+.empty {
+    text-align: center;
+    color: #bbb;
+    margin-top: 40px;
+    font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    table, th, td {
+        font-size: 0.85rem;
+    }
+
+    .checkout-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .cart-container {
+        margin: 20px;
+    }
+}
